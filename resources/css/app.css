@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+a {
+    @apply text-blue-600;
+}
+
+a:hover {
+    @apply underline text-blue-700;
+}
+
+.btn-link {
+    @apply text-blue-600;
+}
+
+.btn-link:hover {
+    @apply underline text-blue-700;
+}

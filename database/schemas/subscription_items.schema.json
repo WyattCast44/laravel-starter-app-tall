@@ -1,0 +1,12 @@
+{
+    "name": "subscription_items",
+    "schema": {
+        "id": "integer",
+        "subscription_id": "integer",
+        "stripe_id": "string",
+        "stripe_plan": "string",
+        "quantity": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+    }
+}
