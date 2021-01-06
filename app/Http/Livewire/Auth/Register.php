@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Auth;
 
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 
 class Register extends Component
 {
@@ -21,8 +21,8 @@ class Register extends Component
     public function register()
     {
         $this->validate([
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'string', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
