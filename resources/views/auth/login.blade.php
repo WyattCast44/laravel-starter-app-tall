@@ -43,4 +43,7 @@
         </div>
 
     </form>
+
+    <a href="{{ route('password.email') }}">Forgot Password?</a>
+    
 </div>
