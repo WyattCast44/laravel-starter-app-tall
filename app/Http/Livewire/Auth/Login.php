@@ -24,7 +24,7 @@ class Login extends Component
         ]);
 
         if ($status) {
-            return redirect()->route('dashboard');
+            return redirect()->intended(route('dashboard'));
         }
     }
 

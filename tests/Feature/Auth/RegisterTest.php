@@ -27,8 +27,7 @@ class RegisterTest extends TestCase
     {
         $this->signIn();
 
-        Livewire::test(Register::class)
-            ->assertRedirect(route('dashboard'));
+        $this->get(route('register'))->assertRedirect(route('dashboard'));
     }
 
     public function test_name_is_required()
@@ -132,6 +131,7 @@ class RegisterTest extends TestCase
             ->set('password', 'password')
             ->set('password_confirmation', 'password')
             ->call('register')
+            ->assertHasNoErrors()
             ->assertRedirect(route('dashboard'));
     }
 

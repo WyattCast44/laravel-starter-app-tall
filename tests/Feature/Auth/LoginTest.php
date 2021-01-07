@@ -7,6 +7,7 @@ use Livewire\Livewire;
 use App\Http\Livewire\Auth\Login;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 
 class LoginTest extends TestCase
 {
@@ -26,8 +27,7 @@ class LoginTest extends TestCase
     {
         $this->signIn();
 
-        Livewire::test(Login::class)
-            ->assertRedirect(route('dashboard'));
+        $this->get(route('login'))->assertRedirect(route('dashboard'));
     }
 
     public function test_email_is_required()
@@ -80,13 +80,14 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create([
             'email' => 'user@email.com',
-            'password' => 'password',
+            'password' => Hash::make('password'),
         ]);
 
         Livewire::test(Login::class)
             ->set('email', $user->email)
             ->set('password', 'password')
             ->call('authenticate')
+            ->assertHasNoErrors()
             ->assertRedirect(route('dashboard'));
     }
 }
