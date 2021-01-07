@@ -5,6 +5,7 @@ use App\Http\Livewire\Auth\Register;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\ResetPassword;
 use App\Http\Livewire\Auth\ForgotPassword;
+use App\Http\Livewire\Auth\ConfirmPassword;
 use App\Http\Controllers\Auth\LogoutController;
 
 Route::group(['middleware' => ['guest']], function () {
@@ -14,4 +15,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 });
 
-Route::post('/logout', LogoutController::class)->name('logout');
+Route::group(['middleware' => ['auth']], function () {
+    Route::post('/logout', LogoutController::class)->name('logout');
+    Route::get('/confirm-password', ConfirmPassword::class)->name('password.confirm');
+});

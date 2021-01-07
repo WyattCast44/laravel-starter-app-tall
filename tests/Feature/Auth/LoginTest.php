@@ -3,11 +3,13 @@
 namespace Tests\Feature\Auth;
 
 use Tests\TestCase;
+use App\Models\User;
 use Livewire\Livewire;
 use App\Http\Livewire\Auth\Login;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
 {
@@ -89,5 +91,24 @@ class LoginTest extends TestCase
             ->call('authenticate')
             ->assertHasNoErrors()
             ->assertRedirect(route('dashboard'));
+    }
+
+    public function test_authenticated_event_is_dispatched()
+    {
+        Event::fake();
+
+        $user = User::factory()->create([
+            'email' => 'user@email.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        Livewire::test(Login::class)
+            ->set('email', $user->email)
+            ->set('password', 'password')
+            ->call('authenticate')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('dashboard'));
+
+        Event::assertDispatched(Authenticated::class);
     }
 }
