@@ -7,8 +7,17 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PagesTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_homepage()
     {
         $this->get('/')->assertOk();
+    }
+
+    public function test_dashboard()
+    {
+        $this->signIn();
+
+        $this->get(route('dashboard'))->assertOk();
     }
 }
