@@ -57,4 +57,18 @@ class ForgotPasswordTest extends TestCase
             ->assertHasNoErrors()
             ->assertSet('emailSent', true);
     }
+
+    public function test_a_valid_email_address_will_get_sent_an_email()
+    {
+        $user = User::factory()->create();
+
+        Livewire::test('auth.forgot-password')
+            ->set('email', $user->email)
+            ->call('attempt')
+            ->assertSet('emailSent', true);
+
+        $this->assertDatabaseHas('password_resets', [
+            'email' => $user->email,
+        ]);
+    }
 }
