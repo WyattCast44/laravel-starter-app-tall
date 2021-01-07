@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class ResetPassword extends Component
 {
@@ -55,7 +56,13 @@ class ResetPassword extends Component
             return redirect()->route('dashboard');
         }
 
-        $this->addError('email', trans($status));
+        if ($status === Password::INVALID_TOKEN) {
+            $this->addError('token', trans($status));
+        } elseif ($status === Password::INVALID_USER) {
+            $this->addError('email', trans($status));
+        } else {
+            $this->addError('general', 'An error occurred, please request a new password reset link.');
+        }
     }
 
     public function render()
